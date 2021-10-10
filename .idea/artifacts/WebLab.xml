@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="WebLab">
+    <output-path>$PROJECT_DIR$/../../../../Tomcat/tomcat9/webapps</output-path>
+    <root id="archive" name="WebLab.war">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="WebLab" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/target/WebLab-1.0-SNAPSHOT/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="WebLab/web/Web" />
+    </root>
+  </artifact>
+</component>
