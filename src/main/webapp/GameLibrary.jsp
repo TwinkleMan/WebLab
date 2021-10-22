@@ -4,12 +4,16 @@
     landing page: title--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" import="java.util.*"
     pageEncoding="UTF-8" errorPage="ErrorManager.jsp" %>
+<%@ page import="javax.persistence.EntityManager" %>
+<%@ page import="com.twinkieman.weblab.utils.EntityManagerUtil" %>
+<%@ page import="net.bytebuddy.implementation.ToStringMethod" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <%
             request.setCharacterEncoding("utf-8");
             String language = request.getParameter("lang");
+
             if (language == null) {
                 throw new IllegalArgumentException("Language expected");
             }
@@ -29,6 +33,7 @@
             if (name == null) {
                 throw new IllegalArgumentException("User expected");
             }
+            EntityManager em = EntityManagerUtil.getEntityManager();
         %>
         <h1 align="center"><%=res.getString("table.name")%> <%=name%></h1>
         <%@include file="TableData.jsp"%>
