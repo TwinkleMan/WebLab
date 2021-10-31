@@ -7,8 +7,9 @@ import com.twinkieman.weblab.utils.EntityManagerUtil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
+import java.lang.Integer;
 
 public class UserDAOImpl implements UserDAO{
     @Override
@@ -83,16 +84,18 @@ public class UserDAOImpl implements UserDAO{
 
     @Override
     public List<Integer> getGameProgress(User user) throws DatabaseErrors.EntityManagerFactoryError {
-        List<Integer> result;
+        List<Integer> result = new ArrayList<>();
+        List<User> users;
 
-        Query query = EntityManagerUtil.getEntityManager().createQuery("FROM User u JOIN u.gamesProgress", Integer.class);
-        result = query.getResultList();
+        Query query = EntityManagerUtil.getEntityManager().createQuery("from User u WHERE u.id = :searchId");
+        query.setParameter("searchId", user.getId());
+        users = query.getResultList();
 
-//        CriteriaBuilder cb = EntityManagerUtil.getEntityManager().getCriteriaBuilder();
-//        CriteriaQuery<Game> cq = cb.createQuery(Game.class);
-//        Root<Game> root = cq.from(Game.class);
-//        Join<Game, Integer> gameStatus = root.join(user.getGamesProgress().values());
-        //ListJoin<Game, Integer> gamesStatus = root.join();
+        if (users != null) {
+            for (Integer val: users.get(0).getGamesProgress()) {
+                result.add(val);
+            }
+        }
 
         return result;
     }

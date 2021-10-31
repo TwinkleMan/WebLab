@@ -1,10 +1,7 @@
 package com.twinkieman.weblab.models;
 
 import javax.persistence.*;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -13,12 +10,13 @@ public class User {
     private int id;
     private String name;
     private String password;
+    private String login;
     private Set<Game> ownedGames;
-    private Map <Game, Integer> gamesProgress;
+    private List<Integer> gamesProgress;
 
     public User() {
         ownedGames = new HashSet<>();
-        gamesProgress = new HashMap<>();
+        gamesProgress = new ArrayList<>();
     }
 
     @Id
@@ -49,7 +47,7 @@ public class User {
 
     @ManyToMany
     @JoinTable(name = "user_owned_games",
-            joinColumns = @JoinColumn(name = "user_id"),
+            joinColumns = @JoinColumn(name = "users_id"),
             inverseJoinColumns = @JoinColumn(name = "game_id")
     )
     public Set<Game> getOwnedGames() {
@@ -63,20 +61,23 @@ public class User {
     }
 
     @ElementCollection
-    @JoinTable(name = "user_owned_games",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = {
-                    @JoinColumn(name = "completed"),
-                    @JoinColumn(name = "game_id")
-            }
+    @CollectionTable(name = "user_owned_games",
+            joinColumns = @JoinColumn(name = "users_id", referencedColumnName = "user_id"),
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"users_id","game_id"})}
     )
-    public Map<Game, Integer> getGamesProgress() {
+    @Column(name = "completed")
+    public List<Integer> getGamesProgress() {
         return gamesProgress;
     }
-    public void setGamesProgress(Map<Game, Integer> gamesProgress) {
+    public void setGamesProgress(List<Integer> gamesProgress) {
         this.gamesProgress = gamesProgress;
     }
-    public void AddGameProgress(Game game, Integer gameProgress) {
-        gamesProgress.put(game, gameProgress);
+
+    @Column(name = "user_login")
+    public String getLogin() {
+        return login;
+    }
+    public void setLogin(String login) {
+        this.login = login;
     }
 }

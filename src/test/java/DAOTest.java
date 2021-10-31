@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import com.twinkieman.weblab.utils.EntityManagerUtil;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 class DAOTest {
@@ -22,11 +24,14 @@ class DAOTest {
 
     @Test
     public void testDao() throws DatabaseErrors.EntityManagerFactoryError {
-        //
         UserDAOImpl userDAO = new UserDAOImpl();
         User user = userDAO.findById(1);
         List<Integer> progress = userDAO.getGameProgress(user);
-        assertTrue(progress.toString().equals("110"));
+
+        List<Integer> res = Arrays.asList(1,1,0);
+
+
+        assertTrue(progress.equals(res));
     }
 
 }
