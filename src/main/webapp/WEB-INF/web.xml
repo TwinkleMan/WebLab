@@ -5,33 +5,36 @@
          version="4.0">
 
     <!-- Описание защищаемых ресурсов -->
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name> Главная </web-resource-name>
-            <url-pattern> /index.jsp </url-pattern>
-            <http-method> GET </http-method>
-            <http-method> POST </http-method>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>user</role-name>
-            <role-name>tomcat</role-name>
-            <role-name>admin</role-name>
-        </auth-constraint>
-    </security-constraint>
-    <!-- Определение вида аутентификации -->
-    <login-config>
-        <auth-method>BASIC</auth-method>
-        <realm-name>JDBCRealm</realm-name>
-    </login-config>
+    <security-role>
+        <role-name>tomcat</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>admin</role-name>
+    </security-role>
 
     <security-role>
         <role-name>user</role-name>
     </security-role>
-    <security-role>
-        <role-name>tomcat</role-name>
-    </security-role>
-    <security-role>
-        <role-name>admin</role-name>
-    </security-role>
+
+    <!-- Описание защищаемых ресурсов -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Библиотека игр</web-resource-name>
+            <url-pattern>/GameLibraryServlet</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>tomcat</role-name>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <!-- Определение вида аутентификации -->
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>Write Book List</realm-name>
+    </login-config>
 
 </web-app>
