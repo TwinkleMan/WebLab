@@ -1,31 +1,32 @@
-package com.twinkieman.weblab;
+package com.twinkieman.weblab.servlets;
+
+import com.twinkieman.weblab.models.Game;
+import com.twinkieman.weblab.models.User;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Locale;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 @WebServlet(name = "GameLibraryServlet", value = "/GameLibraryServlet")
 public class GameLibraryServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.setCharacterEncoding("utf-8");
-        String user = request.getParameter("user");
-        String language = request.getParameter("lang");
-        if (language == null) {
-            response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE, "Ожидался параметр lang");
-            return;
-        }
-        if(!"en".equalsIgnoreCase(language) && !"ru".equalsIgnoreCase(language)) {
-            response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE, "Параметр lang может принимать значения en или ru");
-            return;
-        }
-        response.setContentType("text/html;charset=UTF-8");         // Задание типа содержимого для ответа (в том числе кодировки)
-        ResourceBundle res = ResourceBundle.getBundle(
-                "GameLibrary", "en".equalsIgnoreCase(language) ? Locale.ENGLISH : Locale.getDefault());
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("text/html;charset=UTF-8");
+        String user = (String) request.getSession().getAttribute("user");
+        User currUser = (User) request.getSession().getAttribute("currUser");
+        ResourceBundle res = (ResourceBundle) request.getSession().getAttribute("res");
+
+        int count = 0;
+
+        Set<Game> games = currUser.getOwnedGames();
+        List<Integer> progress = currUser.getGamesProgress();
 
         try (PrintWriter out = response.getWriter()) {
             out.println("<html>");
@@ -34,19 +35,22 @@ public class GameLibraryServlet extends HttpServlet {
             out.println("</title></head>");
             out.println("<body>");
             out.println("<h1>");
-            out.println(res.getString("table.name") + " " + (user != null ? user : res.getString("default.username")) + "</h1>");
-            out.println("<table border='1'>");
+            out.println("<p align='center'>"+res.getString("table.name") + " " + (user != null ? user : res.getString("default.username")) + "</h1></p>");
+            out.println("<table align='center' border='1'>");
             out.println("<tr><td><b>");
             out.println(res.getString("developer") + "</b></td><td><b>");
             out.println(res.getString("game.name") + "</b></td><td><b>");
             out.println(res.getString("completed") + "</b></td></tr>");
-            out.println("<tr><td>CD PROJECT RED</td><td>The witcher 3</td><td>" + res.getString("ans.yes") + "</td></tr>");
-            out.println("<tr><td>Valve</td><td>Dota 2</td><td>" + res.getString("ans.yes") + "</td></tr>");
-            out.println("<tr><td>Gearbox software</td><td>Borderlands 2</td><td>" + res.getString("ans.no") + "</td></tr>");
-            out.println("<tr><td>HotFoodGames</td><td>Drunken samurai</td><td>" + res.getString("ans.no") + "</td></tr>");
+            for (Game game: games) {
+                out.print("<tr><td>"+ game.getCompany().getName() +"</td><td>"+ game.getName() +"</td><td>");
+                if (progress.get(count) == 1) out.println(res.getString("ans.yes") + "</td></tr>");
+                else if (progress.get(count) == 0) out.println(res.getString("ans.no") + "</td></tr>");
+                count++;
+            }
             out.println("</table>");
             out.println("</body>");
             out.println("</html>");
+            count = 0;
         }
 
     }
