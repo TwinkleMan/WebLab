@@ -1,6 +1,5 @@
 <%@ page import="com.twinkieman.weblab.dao.UserDAOImpl" %>
 <%@ page import="com.twinkieman.weblab.models.User" %>
-<%@ page import="java.io.PrintWriter" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ResourceBundle" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -17,8 +16,6 @@
     <%
         List<User> users = new UserDAOImpl().getAllUsers();
         request.setAttribute("users",users);
-        int count = users.size();
-        PrintWriter printWriter = response.getWriter();
         ResourceBundle res = (ResourceBundle) session.getAttribute("res");
     %>
     <%--add user--%>

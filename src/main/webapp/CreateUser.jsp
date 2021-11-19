@@ -23,12 +23,28 @@
     <div align="center">
         <h1><%=resourceBundle.getString("create.title")%></h1>
         <br><br>
-        <%=resourceBundle.getString("create.name")%>: <input type="text" name="name" />
-        <br><br>
-        <%=resourceBundle.getString("create.login")%>: <input type="text" name="login" />
-        <br><br>
-        <%=resourceBundle.getString("create.password")%>: <input type="text" name="password" />
-        <%--add dropdown menu of all games to choose--%>
+        <form name="createUser" method="get" action="CreateUserEngine.jsp">
+        <table align="center" border="0">
+            <tr>
+                <td><b><%=resourceBundle.getString("create.name")%>: </b></td>
+                <td><b><input type="text" name="name" /></b></td>
+            </tr>
+            <tr>
+                <td><b><%=resourceBundle.getString("create.login")%>: </b></td>
+                <td><b><input type="text" name="login" /></b></td>
+            </tr>
+            <tr>
+                <td><b><%=resourceBundle.getString("create.password")%>: </b></td>
+                <td><b><input type="text" name="password" /></b></td>
+            </tr>
+            <tr>
+                <td><b><%=resourceBundle.getString("choose.games")%>: </b></td>
+                <td><b><%@include file="AddUser_gameList.jsp"%></b></td>
+            </tr>
+            <%--add dropdown menu of all games to choose--%>
+        </table>
+        <input type="submit" value="Submit" name="submit_user">
+        </form>
     </div>
 </body>
 </html>

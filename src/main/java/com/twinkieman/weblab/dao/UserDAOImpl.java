@@ -65,7 +65,7 @@ public class UserDAOImpl implements UserDAO{
     public List<User> searchByLogin(String login) throws DatabaseErrors.EntityManagerFactoryError {
         List<User> result;
 
-        Query query = EntityManagerUtil.getEntityManager().createQuery("FROM User U where U.name = :searchLogin");
+        Query query = EntityManagerUtil.getEntityManager().createQuery("FROM User U where U.login = :searchLogin");
         query.setParameter("searchLogin", login);
         result = query.getResultList();
 

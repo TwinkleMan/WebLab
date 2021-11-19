@@ -13,6 +13,7 @@ public class GameLibraryServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.setCharacterEncoding("utf-8");
+        response.setContentType("text/html;charset=UTF-8");
         String user = request.getParameter("user");
         String language = request.getParameter("lang");
         if (language == null) {

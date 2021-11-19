@@ -7,9 +7,9 @@
         <title>Error processing</title>
     </head>
     <body>
-        <h1>Error page</h1>
-        <h2>Received exception:
-            <FONT color="red"><%=exception.toString()%></FONT>
+        <h1 align="center">Error page</h1>
+        <h2 align="center">Received exception:
+            <FONT color="red"><%=exception.getMessage()%></FONT>
         </h2>
     </body>
 </html>

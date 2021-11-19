@@ -29,6 +29,6 @@
         EntityManager em = EntityManagerUtil.getEntityManager();
         session.setAttribute("user",name);
     %>
-    <%@include file="GameLibrary.jsp"%>
+    <%@include file="GamesTableData.jsp"%>
 </body>
 </html>

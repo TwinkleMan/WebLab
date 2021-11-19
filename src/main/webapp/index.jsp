@@ -15,7 +15,7 @@
 </head>
 <body>
 
-    <div align="center" title="Select language and enter username">
+    <div align="center" title="Select language">
         <form name="languageIndex" method="get" action="langProcess.jsp">
             Language: <select name="lang">
             <option value="ru">Russian</option>
@@ -25,11 +25,25 @@
         </form>
     </div>
 
-    <% if (request.getParameter("submit") != null) {%>
-    <div align="center">
-        <a href="CreateUser.jsp">Create user</a>
-    </div>
-    <%@include file="UsersTable.jsp"%>
+
+    <% if ((request.getParameter("submit") != null) || (request.getParameter("userSubmit") != null)) {%>
+        <div align="center">
+            <a href="CreateUser.jsp">Create user</a>
+        </div>
+        <%@include file="UsersTable.jsp"%>
+        <br><br>
+        <div align="center" title="Enter username">
+            <form name="UsernameIndex" method="get" action="UserProcess.jsp">
+                <%=res.getString("login")%>: <input name="user"/>
+                <input type = "submit" value="Submit" name="userSubmit"/>
+            </form>
+        </div>
+        <% if (request.getParameter("userSubmit") != null) {
+            ResourceBundle res2 = ResourceBundle.getBundle("GameLibrary",
+            "en".equalsIgnoreCase((String) session.getAttribute("lang")) ? Locale.ENGLISH : Locale.getDefault());%>
+            <h1 align="center"><%=res2.getString("table.name")%> <%=session.getAttribute("user")%></h1>
+            <%@include file="GamesTableData.jsp"%>
+        <%}%>
     <%}%>
 
 </body>
